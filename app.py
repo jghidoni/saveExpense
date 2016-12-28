@@ -28,7 +28,7 @@ def webhook():
     return r
 
 def makeWebhookResult(req):
-    if req.get("result").get("action") != "saveExpense":
+    if req.get("result").get("action") != "save.expense":
         return {}
     result = req.get("result")
     parameters = result.get("parameters")
