@@ -42,7 +42,7 @@ def makeWebhookResult(req):
     return {
         "speech": speech,
         "displayText": speech,
-        #"data": {},
+        "data": {"facebook": {speech}}
         # "contextOut": [],
         "source": "save-expense"
     }
