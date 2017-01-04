@@ -33,18 +33,17 @@ def makeWebhookResult(req):
     result = req.get("result")
     parameters = result.get("parameters")
     expense = parameters.get("expense-type")
+    
+    #salvare i parametri
 
-    speech = expense + " salvata con successo."
+    speech = "Spesa salvata con successo."
 
     print("Response:")
     print(speech)
 
     return {
         "speech": speech,
-        "displayText": speech,
-        "data": {"facebook": {speech}}
-        # "contextOut": [],
-        "source": "save-expense"
+        "displayText": speech
     }
 
 
