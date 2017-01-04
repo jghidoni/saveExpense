@@ -1,16 +1,24 @@
 #!/usr/bin/env python
 
+#REQUIREMENTS: psycopg2==2.6.1 Flask-SQLAlchemy===2.1
+
 import urllib
 import json
 import os
+import psycopg2
 
 from flask import Flask
 from flask import request
 from flask import make_response
+from flask_sqlalchemy import SQLAlchemy
 
 # Flask app should start in global layout
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
+from app import db
+db.create_all()
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
