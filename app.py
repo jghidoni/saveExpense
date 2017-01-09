@@ -6,6 +6,7 @@ import urllib
 import json
 import os
 import psycopg2
+import urlparse
 
 from flask import Flask
 from flask import request
