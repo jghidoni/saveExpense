@@ -4,7 +4,7 @@ import urllib
 import json
 import os
 import psycopg2
-import urlparse
+#import urlparse
 
 from flask import Flask
 from flask import request
@@ -26,10 +26,12 @@ app = Flask(__name__)
 #)
 
 
+DATABASE_URL = 'postgres://ihpmyqskfsfglq:f04a5064a0018a3489efa7a39000dd936cc935cc46bd08af90b8e3d6bc01edec@ec2-54-228-212-74.eu-west-1.compute.amazonaws.com:5432/deefr25eh78pk'
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL','postgres://ihpmyqskfsfglq:f04a5064a0018a3489efa7a39000dd936cc935cc46bd08af90b8e3d6bc01edec@ec2-54-228-212-74.eu-west-1.compute.amazonaws.com:5432/deefr25eh78pk']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ[DATABASE_URL]
 db = SQLAlchemy(app)
+db.create_all()
+
 from models import *
 
 @app.route('/webhook', methods=['POST'])
