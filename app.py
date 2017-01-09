@@ -17,8 +17,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
-from app import db
-db.create_all()
+from models import *
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -41,7 +40,12 @@ def makeWebhookResult(req):
     result = req.get("result")
     parameters = result.get("parameters")
     expense = parameters.get("expense-type")
-    
+    service = parameters.get("service-bought")
+    amount = parameters.get("unit-currency")
+    date = parameters.get("date")
+
+    db.session.add(ExpenseRecord(expense,service))
+    db.session.commit()
     #salvare i parametri
 
     speech = "Spesa salvata con successo."
