@@ -4,7 +4,7 @@ import urllib
 import json
 import os
 import psycopg2
-#import urlparse
+import urlparse
 
 from flask import Flask
 from flask import request
@@ -14,25 +14,28 @@ from flask.ext.sqlalchemy import SQLAlchemy
 # Flask app should start in global layout
 app = Flask(__name__)
 
-#urlparse.uses_netloc.append("postgres")
-#url = urlparse.urlparse(os.environ["DATABASE_URL"])
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
 
-#conn = psycopg2.connect(
-#    database=url.path[1:],
-#    user=url.username,
-#    password=url.password,
-#    host=url.hostname,
-#    port=url.port
-#)
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
+cur = conn.cursor()
+cur.execute("CREATE TABLE test (id serial PRIMARY KEY, num integer, data varchar);")
 
 
-DATABASE_URL = 'postgres://ihpmyqskfsfglq:f04a5064a0018a3489efa7a39000dd936cc935cc46bd08af90b8e3d6bc01edec@ec2-54-228-212-74.eu-west-1.compute.amazonaws.com:5432/deefr25eh78pk'
+#DATABASE_URL = 'postgres://ihpmyqskfsfglq:f04a5064a0018a3489efa7a39000dd936cc935cc46bd08af90b8e3d6bc01edec@ec2-54-228-212-74.eu-west-1.compute.amazonaws.com:5432/deefr25eh78pk'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ[DATABASE_URL]
-db = SQLAlchemy(app)
-db.create_all()
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ[DATABASE_URL]
+#db = SQLAlchemy(app)
+#db.create_all()
 
-from models import *
+#from models import *
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -59,8 +62,13 @@ def makeWebhookResult(req):
     amount = parameters.get("unit-currency")
     date = parameters.get("date")
 
-    db.session.add(ExpenseRecord(expense,service))
-    db.session.commit()
+    cur.execute("INSERT INTO test (num, data) VALUES (%s, %s)", (amount, service))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    #db.session.add(ExpenseRecord(expense,service))
+    #db.session.commit()
     #salvare i parametri
 
     speech = "Spesa salvata con successo."

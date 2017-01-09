@@ -1,3 +1,4 @@
+'''
 from app import db
 
 class ExpenseRecord(db.Model):
@@ -14,3 +15,4 @@ class ExpenseRecord(db.Model):
 
     def __repr__(self):
         return '<title {}'.format(self.title)
+'''
