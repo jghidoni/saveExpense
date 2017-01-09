@@ -62,10 +62,7 @@ def makeWebhookResult(req):
     amount = parameters.get("unit-currency")
     date = parameters.get("date")
 
-    cur.execute("INSERT INTO test (num, data) VALUES (%s, %s)", (amount, service))
-    conn.commit()
-    cur.close()
-    conn.close()
+    cur.execute("INSERT INTO test (num, data) VALUES (%s, %s)", (100, 'abc'))
 
     #db.session.add(ExpenseRecord(expense,service))
     #db.session.commit()
@@ -81,6 +78,9 @@ def makeWebhookResult(req):
         "displayText": speech
     }
 
+conn.commit()
+cur.close()
+conn.close()
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
