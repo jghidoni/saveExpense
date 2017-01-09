@@ -10,7 +10,7 @@ import psycopg2
 from flask import Flask
 from flask import request
 from flask import make_response
-from flask_sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 
 # Flask app should start in global layout
 app = Flask(__name__)
