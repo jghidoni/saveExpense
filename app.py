@@ -1,16 +1,23 @@
 #!/usr/bin/env python
 
+#REQUIREMENTS: psycopg2==2.6.1 Flask-SQLAlchemy===2.1
+
 import urllib
 import json
 import os
+import psycopg2
 
 from flask import Flask
 from flask import request
 from flask import make_response
+from flask_sqlalchemy import SQLAlchemy
 
 # Flask app should start in global layout
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
+from models import *
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -33,7 +40,12 @@ def makeWebhookResult(req):
     result = req.get("result")
     parameters = result.get("parameters")
     expense = parameters.get("expense-type")
-    
+    service = parameters.get("service-bought")
+    amount = parameters.get("unit-currency")
+    date = parameters.get("date")
+
+    db.session.add(ExpenseRecord(expense,service))
+    db.session.commit()
     #salvare i parametri
 
     speech = "Spesa salvata con successo."
