@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-#REQUIREMENTS: psycopg2==2.6.1 Flask-SQLAlchemy===2.1
-
 import urllib
 import json
 import os
@@ -16,7 +14,21 @@ from flask.ext.sqlalchemy import SQLAlchemy
 # Flask app should start in global layout
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+#urlparse.uses_netloc.append("postgres")
+#url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+#conn = psycopg2.connect(
+#    database=url.path[1:],
+#    user=url.username,
+#    password=url.password,
+#    host=url.hostname,
+#    port=url.port
+#)
+
+
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL','postgres://ihpmyqskfsfglq:f04a5064a0018a3489efa7a39000dd936cc935cc46bd08af90b8e3d6bc01edec@ec2-54-228-212-74.eu-west-1.compute.amazonaws.com:5432/deefr25eh78pk']
 db = SQLAlchemy(app)
 from models import *
 
